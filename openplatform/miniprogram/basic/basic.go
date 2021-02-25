@@ -3,8 +3,8 @@ package basic
 import (
 	"fmt"
 
-	openContext "github.com/silenceper/wechat/v2/openplatform/context"
-	"github.com/silenceper/wechat/v2/util"
+	openContext "github.com/xxiiaaon/wechat/v2/openplatform/context"
+	"github.com/xxiiaaon/wechat/v2/util"
 )
 
 const (

@@ -14,7 +14,7 @@ func TestRedis(t *testing.T) {
 	var err error
 	timeoutDuration := 1 * time.Second
 
-	if err = redis.Set("username", "silenceper", timeoutDuration); err != nil {
+	if err = redis.Set("username", "xxiiaaon", timeoutDuration); err != nil {
 		t.Error("set Error", err)
 	}
 
@@ -23,7 +23,7 @@ func TestRedis(t *testing.T) {
 	}
 
 	name := redis.Get("username").(string)
-	if name != "silenceper" {
+	if name != "xxiiaaon" {
 		t.Error("get Error")
 	}
 

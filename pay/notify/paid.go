@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/fatih/structs"
-	"github.com/silenceper/wechat/v2/util"
 	"github.com/spf13/cast"
+	"github.com/xxiiaaon/wechat/v2/util"
 )
 
 // doc: https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7&index=8

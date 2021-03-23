@@ -68,6 +68,31 @@ type PreOrder struct {
 	ErrCodeDes string `xml:"err_code_des,omitempty"`
 }
 
+// QueryResult is return of orderquery api
+type QueryResult struct {
+	ReturnCode    string `xml:"return_code"`
+	ReturnMsg     string `xml:"return_msg"`
+	AppID         string `xml:"appid,omitempty"`
+	MchID         string `xml:"mch_id,omitempty"`
+	DeviceInfo    string `xml:"device_info,omitempty"`
+	NoneStr       string `xml:"nonce_str,omitempty"`
+	Sign          string `xml:"sign,omitempty"`
+	ResultCode    string `xml:"result_code,omitempty"`
+	OpenID        string `xml:"openid,omitempty"`
+	IsSubscribe   string `xml:"is_subscribe,omitempty"`
+	TradeType     string `xml:"trade_type,omitempty"`
+	BankType      string `xml:"bank_type,omitempty"`
+	TotalFee      int    `xml:"total_fee,omitempty"`
+	FeeType       string `xml:"fee_type,omitempty"`
+	TransactionID string `xml:"transaction_id,omitempty"`
+	OutTradeNo    string `xml:"out_trade_no,omitempty"`
+	Attach        string `xml:"attach,omitempty"`
+	TimeEnd       string `xml:"time_end,omitempty"`
+	TradeState    string `xml:"trade_state,omitempty"`
+	ErrCode       string `xml:"err_code,omitempty"`
+	ErrCodeDes    string `xml:"err_code_des,omitempty"`
+}
+
 // payRequest 接口请求参数
 type payRequest struct {
 	AppID          string `xml:"appid"`
@@ -94,6 +119,14 @@ type payRequest struct {
 	SceneInfo      string `xml:"scene_info,omitempty"`  // 场景信息
 
 	XMLName struct{} `xml:"xml"`
+}
+
+type queryRequest struct {
+	AppID      string `xml:"appid"`
+	MchID      string `xml:"mch_id"`
+	NonceStr   string `xml:"nonce_str"`
+	OutTradeNo string `xml:"out_trade_no"`
+	Sign       string `xml:"sign"`
 }
 
 // BridgeConfig get js bridge config
@@ -130,6 +163,46 @@ func (o *Order) BridgeConfig(p *Params) (cfg Config, err error) {
 	cfg.PrePayID = order.PrePayID
 	cfg.SignType = p.SignType
 	cfg.Package = "prepay_id=" + order.PrePayID
+	return
+}
+
+// QueryOrder call for OrderState api
+func (o *Order) QueryOrder(orderID string) (queryResult QueryResult, err error) {
+	nonceStr := util.RandomStr(32)
+	param := make(map[string]string)
+	param["appid"] = o.AppID
+	param["mch_id"] = o.MchID
+	param["nonce_str"] = nonceStr
+	param["out_trade_no"] = orderID
+	sign, err := util.ParamSign(param, o.Key)
+	if err != nil {
+		return
+	}
+	request := queryRequest{
+		AppID:      o.AppID,
+		MchID:      o.MchID,
+		NonceStr:   nonceStr,
+		OutTradeNo: orderID,
+		Sign:       sign,
+	}
+	rawRet, err := util.PostXML(payGateway, request)
+	if err != nil {
+		return
+	}
+	err = xml.Unmarshal(rawRet, &queryResult)
+	if err != nil {
+		return
+	}
+	if queryResult.ReturnCode == "SUCCESS" {
+		// pay success
+		if queryResult.ResultCode == "SUCCESS" {
+			err = nil
+			return
+		}
+		err = errors.New(queryResult.ErrCode + queryResult.ErrCodeDes)
+		return
+	}
+	err = errors.New("[msg : xmlUnmarshalError] [rawReturn : " + string(rawRet) + "] [sign : " + sign + "]")
 	return
 }
 

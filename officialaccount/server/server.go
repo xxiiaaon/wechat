@@ -84,7 +84,7 @@ func (srv *Server) Validate() bool {
 	timestamp := srv.Query("timestamp")
 	nonce := srv.Query("nonce")
 	signature := srv.Query("signature")
-	log.Debugf("validate signature, timestamp=%s, nonce=%s", timestamp, nonce)
+	log.Debugf("validate signature, timestamp=%s, nonce=%s, signature=%s", timestamp, nonce, signature)
 	return signature == util.Signature(srv.Token, timestamp, nonce)
 }
 

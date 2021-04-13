@@ -1,3 +1,5 @@
+// added by xxiiaaon
+
 package log
 
 import (
@@ -17,6 +19,8 @@ type Logger interface {
 	Errorf(format string, args ...interface{})
 	Debug(args ...interface{})
 	Debugf(format string, args ...interface{})
+	Info(args ...interface{})
+	Infof(format string, args ...interface{})
 	Warn(args ...interface{})
 	Warnf(format string, args ...interface{})
 	Fatal(args ...interface{})
@@ -27,6 +31,8 @@ func Error(args ...interface{})                 { l.Error(args...) }
 func Errorf(format string, args ...interface{}) { l.Errorf(format, args...) }
 func Debug(args ...interface{})                 { l.Debug(args...) }
 func Debugf(format string, args ...interface{}) { l.Debugf(format, args...) }
+func Info(args ...interface{})                  { l.Info(args...) }
+func Infof(format string, args ...interface{})  { l.Infof(format, args...) }
 func Warn(args ...interface{})                  { l.Warn(args...) }
 func Warnf(format string, args ...interface{})  { l.Warnf(format, args...) }
 func Fatal(args ...interface{})                 { l.Fatal(args...) }

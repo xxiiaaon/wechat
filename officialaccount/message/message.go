@@ -15,11 +15,6 @@ type EventType string
 // InfoType 第三方平台授权事件类型
 type InfoType string
 
-// MsgReply interface
-type MsgReply interface {
-	GetMsgType() MsgType
-}
-
 const (
 	//MsgTypeText 表示文本消息
 	MsgTypeText MsgType = "text"
@@ -234,9 +229,4 @@ func (msg *CommonToken) SetMsgType(msgType MsgType) {
 //GetOpenID get the FromUserName value
 func (msg *CommonToken) GetOpenID() string {
 	return string(msg.FromUserName)
-}
-
-//GetMsgType get the MsgType value
-func (msg *CommonToken) GetMsgType() MsgType {
-	return msg.MsgType
 }

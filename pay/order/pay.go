@@ -68,7 +68,7 @@ type PreOrder struct {
 	ErrCodeDes string `xml:"err_code_des,omitempty"`
 }
 
-// QueryResult is return of orderquery api
+// QueryResult is return of orderquery api <added by xxiiaaon>
 type QueryResult struct {
 	ReturnCode    string `xml:"return_code"`
 	ReturnMsg     string `xml:"return_msg"`
@@ -121,6 +121,7 @@ type payRequest struct {
 	XMLName struct{} `xml:"xml"`
 }
 
+// <added by xxiiaaon>
 type queryRequest struct {
 	AppID      string `xml:"appid"`
 	MchID      string `xml:"mch_id"`
@@ -166,7 +167,7 @@ func (o *Order) BridgeConfig(p *Params) (cfg Config, err error) {
 	return
 }
 
-// QueryOrder call for OrderState api
+// QueryOrder call for OrderState api <added by xxiiaaon>
 func (o *Order) QueryOrder(orderID string) (queryResult QueryResult, err error) {
 	nonceStr := util.RandomStr(32)
 	param := make(map[string]string)

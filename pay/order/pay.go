@@ -43,7 +43,7 @@ type Params struct {
 
 // Config 是传出用于 js sdk 用的参数
 type Config struct {
-	Timestamp string `json:"timestamp"`
+	Timestamp string `json:"timeStamp"`
 	NonceStr  string `json:"nonceStr"`
 	PrePayID  string `json:"prePayId"`
 	SignType  string `json:"signType"`
